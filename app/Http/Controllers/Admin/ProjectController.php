@@ -71,7 +71,7 @@ class ProjectController extends Controller
         $project->save();
         return to_route('admin.projects.show', $project)
             ->with('message_type', "success")
-            ->with('message-content', "Post $project->title creato con successo!");;
+            ->with('message-content', "Il progetto con $project->title è stato creato con successo!");;
     }
 
     /**
@@ -128,7 +128,7 @@ class ProjectController extends Controller
 
         return to_route('admin.projects.show', $project)
             ->with('message_type', "success")
-            ->with('message-content', "Post $project->title modificato con successo");
+            ->with('message-content', "Il progetto con ID: $project->title è stato modificato con successo!");
     }
 
     /**
@@ -149,7 +149,7 @@ class ProjectController extends Controller
         $project->delete();
         return to_route('admin.projects.index')
             ->with('message_type', "danger")
-            ->with('message-content', "Post $id_project eliminato con successo!");;
+            ->with('message-content', "Il progetto con $id_project spostato nel cestino!");;
     }
 
     // VALIDATION
@@ -176,5 +176,39 @@ class ProjectController extends Controller
             ]
         )->validate();
         return $validator;
+    }
+
+
+    // SOFT-DELETE ********************************************
+    public function trash(Request $request)
+    {
+        $sort = (!empty($sort_request = $request->get('sort'))) ? $sort_request : 'updated_at';
+        $order = (!empty($order_request = $request->get('order'))) ? $order_request : 'ASC';
+
+        $projects = Project::onlyTrashed($sort, $order)->paginate(10)->withQueryString();
+
+        return view('admin.projects.trash', compact('projects', 'sort', 'order'));
+    }
+
+    public function forceDelete(Int $id)
+    {
+        $id_message = $id;
+        // Creo una variabile per salvarmi l'id--> per la variabile FLASH
+        $id_project = Project::where('id', $id)->onlyTrashed()->first();
+        $id_project->forceDelete();
+        return to_route('admin.projects.index')
+            ->with('message_type', "danger")
+            ->with('message-content', "Il progetto con ID: $id_message è stato eliminato definitivamente!");;
+    }
+
+    public function restore(Int $id)
+    {
+        $id_message = $id;
+        // Creo una variabile per salvarmi l'id--> per la variabile FLASH
+        $id_project = Project::where('id', $id)->onlyTrashed()->first();
+        $id_project->restore();
+        return to_route('admin.projects.index')
+            ->with('message_type', "success")
+            ->with('message-content', "Il progetto con ID: $id_message è stato ripristinato correttamente!");;
     }
 }

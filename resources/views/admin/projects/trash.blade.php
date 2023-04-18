@@ -2,9 +2,7 @@
 
 @section('actions')
     <div class="container mt-4 mb-3">
-        <a class="btn btn-primary" href="{{ route('admin.projects.create') }}">Create new Project</a>
-        <a class="btn btn-primary" href="{{ route('admin.projects.trash') }}">Trashcan</a>
-
+        <a class="btn btn-primary" href="{{ route('admin.projects.index') }}">See all Projects</a>
     </div>
 @endsection
 @section('content')
@@ -68,10 +66,22 @@
                                     class="fa-solid fa-caret-down ms-2 @if ($order == 'DESC') rotate-180 @endif"></i></a>
                         @endif
                     </th>
+                    {{-- DELETED --}}
+                    <th scope="col">
+                        <a
+                            href="{{ route('admin.projects.index') }}?sort=updated_at&order={{ $sort == 'updated_at' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Deleted</a>
+
+                        @if ($sort == 'updated_at')
+                            <a
+                                href="{{ route('admin.projects.index') }}?sort=updated_at&order={{ $sort == 'updated_at' && $order != 'DESC' ? 'DESC' : 'ASC' }}"><i
+                                    class="fa-solid fa-caret-down ms-2 @if ($order == 'DESC') rotate-180 @endif"></i></a>
+                        @endif
+                    </th>
 
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
+            {{-- BODY --}}
             <tbody>
                 @forelse ($projects as $project)
                     <tr>
@@ -80,16 +90,22 @@
                         <td>{{ $project->getAbstract() }}</td>
                         <td>{{ $project->created_at }}</td>
                         <td>{{ $project->getUpdatedAttribute() }}</td>
+                        <td>{{ $project->deleted_at }}</td>
                         <td>
-                            <a href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-eye"></i></a>
-                            <a href="{{ route('admin.projects.edit', $project) }}"><i class="fa-solid fa-pen ms-3"></i></a>
-                            <a type="button" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $project->id }}">
-                                <i class="fa-solid fa-trash-can ms-3 text-primary"></i>
-                            </a>
+                            {{-- <a href="{{ route('admin.projects.show', $project) }}"><i class="fa-solid fa-eye"></i></a> --}}
+                            <button class="ms-3 text-danger" data-bs-toggle="modal"
+                                data-bs-target="#delete-modal-{{ $project->id }}" title="Elimina il prodotto"><i
+                                    class="fa-solid fa-trash"></i>
+                            </button>
+                            <button class="ms-3 text-success" data-bs-toggle="modal"
+                                data-bs-target="#restore-modal-{{ $project->id }}" title="Ripristina il prodotto"> <i
+                                    class="fa-solid fa-arrow-up-from-bracket"></i>
+                            </button>
                         </td>
                     </tr>
 
                 @empty
+                    <h4>The trashcan is empty.</h4>
                 @endforelse
 
             </tbody>
@@ -117,11 +133,37 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
 
-                        <form action="{{ route('admin.projects.destroy', $project) }}" method="POST" class="">
+                        <form action="{{ route('admin.projects.force-delete', $project) }}" method="POST" class="">
                             @method('delete')
                             @csrf
 
                             <button type="submit" class="btn btn-danger">Elimina</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Modale ripristino --}}
+        <div class="modal fade" id="restore-modal-{{ $project->id }}" tabindex="-1" data-bs-backdrop="static"
+            aria-labelledby="restore-modal-{{ $project->id }}-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="delete-modal-{{ $project->id }}-label">Conferma Ripristino</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start">
+                        Sei sicuro di voler ripristinare il prodotto <strong>{{ $project->title }}</strong> con ID
+                        <strong> {{ $project->id }}</strong>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+
+                        <form action="{{ route('admin.projects.restore', $project->id) }}" method="POST" class="">
+                            @method('put')
+                            @csrf
+
+                            <button type="submit" class="btn btn-success">Ripristina</button>
                         </form>
                     </div>
                 </div>
