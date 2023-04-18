@@ -4,6 +4,7 @@
     <div class="container mt-4 mb-3">
         <a class="btn btn-primary" href="{{ route('admin.projects.create') }}">Create new Project</a>
         <a class="btn btn-primary" href="{{ route('admin.projects.trash') }}">Trashcan</a>
+        <a class="btn btn-primary" href="{{ route('admin.types.index') }}">Types</a>
 
     </div>
 @endsection
@@ -127,9 +128,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-start">
-                        Sei sicuro di voler eliminare la canzone <strong>{{ $project->title }}</strong> con ID
+                        Sei sicuro di voler spostare nel cestino il progetto: <strong>{{ $project->title }}</strong> con ID
                         <strong> {{ $project->id }}</strong>? <br>
-                        L'operazione non è reversibile!
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>

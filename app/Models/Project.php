@@ -16,9 +16,9 @@ class Project extends Model
     protected $fillable = ['type_id', 'title', 'text', 'image'];
 
     // RELAZIONE CON TABLE TYPES
-    public function projects()
+    public function type()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Type::class);
     }
     // ABSTRACT FUNCTION
     public function getAbstract($max = 50)
