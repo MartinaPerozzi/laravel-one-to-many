@@ -77,7 +77,6 @@
                                 </label>
                                 <select name="type_id" id="type_id"
                                     class="form-select @error('type_id') is-invalid @enderror">
-                                    <option value="No Type">No Type Found</option>
                                     @foreach ($types as $type)
                                         <option @if (old('type_id', $project->$type) == $type->id) selected @endif
                                             value="{{ $type->id }}">{{ $type->label }}</option>

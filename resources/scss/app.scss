@@ -59,9 +59,11 @@ i:not(.fa-caret-down) {
     min-height: 80px;
 }
 
+// HOME GUEST ***************
 .guest-home-cards {
     img {
-        max-height: 300px;
+        height: 300px;
+
     }
 }
 
@@ -82,4 +84,8 @@ button {
     width: 100px;
     height: 100px;
     border-radius: 1rem;
+}
+
+.type-pill {
+    max-width: 600px;
 }

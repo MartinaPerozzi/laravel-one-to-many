@@ -56,6 +56,7 @@
                                  <a class="dropdown-item" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
 
                                  <a class="dropdown-item" href="{{ route('admin.projects.index') }}">{{ __('Projects') }}</a>
+                                 <a class="dropdown-item" href="{{ route('admin.types.index') }}">{{ __('Types') }}</a>
                              @endauth
                              <a class="dropdown-item" href="{{ url('profile') }}">{{ __('Profile') }}</a>
                              <a class="dropdown-item" href="{{ route('logout') }}"

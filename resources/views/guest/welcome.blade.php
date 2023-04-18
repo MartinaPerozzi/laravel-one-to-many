@@ -8,7 +8,7 @@
                     <div class="card guest-home-cards" style="width: 18rem">
                         <img src="{{ $project->getImageUri() }}" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $project->title }}</h5>
+                            <h5 class="card-title">{{ $project->id . ' ' . $project->title }}</h5>
                             <p class="card-text">{{ $project->getAbstract(10) }}</p>
                             {{-- Passaggio del parametro id nell'url --}}
                             <a href="{{ route('detail') }}?id={{ $project->id }}" class="btn btn-primary">See More</a>
