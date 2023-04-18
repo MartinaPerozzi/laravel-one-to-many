@@ -11,9 +11,15 @@ class Project extends Model
 {
     use HasFactory, SoftDeletes;
 
-    // FILLABLE
-    protected $fillable = ['title', 'text', 'image'];
 
+    // FILLABLE
+    protected $fillable = ['type_id', 'title', 'text', 'image'];
+
+    // RELAZIONE CON TABLE TYPES
+    public function projects()
+    {
+        return $this->belongsTo(Category::class);
+    }
     // ABSTRACT FUNCTION
     public function getAbstract($max = 50)
     {

@@ -36,6 +36,17 @@
                                     class="fa-solid fa-caret-down ms-2 @if ($order == 'DESC') rotate-180 @endif"></i></a>
                         @endif
                     </th>
+                    {{-- TYPE --}}
+                    <th scope="col">
+                        <a
+                            href="{{ route('admin.projects.index') }}?sort=type_id&order={{ $sort == 'type_id' && $order != 'desc' ? 'desc' : 'asc' }}">
+                            Type
+                            @if ($sort == 'type_id')
+                                <i
+                                    class="bi bi-caret-down-fill d-inline-block @if ($order == 'desc') rotate-180 @endif"></i>
+                            @endif
+                        </a>
+                    </th>
                     {{-- TEXT --}}
                     <th scope="col"><a
                             href="{{ route('admin.projects.index') }}?sort=text&order={{ $sort == 'text' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Abstract</a>
@@ -77,6 +88,12 @@
                     <tr>
                         <th scope="row">{{ $project->id }}</th>
                         <td>{{ $project->title }}</td>
+                        <td>
+                            <span class="badge rounded-pill" style="background-color: {{ $project->type?->color }}">
+                                {{ $project->type?->label }}
+                            </span>
+                            {{-- @dump($project->type) --}}
+                        </td>
                         <td>{{ $project->getAbstract() }}</td>
                         <td>{{ $project->created_at }}</td>
                         <td>{{ $project->getUpdatedAttribute() }}</td>

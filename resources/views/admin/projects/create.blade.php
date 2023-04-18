@@ -69,6 +69,27 @@
                                 @enderror
                             </div>
                         </div>
+                        {{-- SELECT --}}
+                        <div>
+                            <div class="">
+                                <label for="image" class="form-label">
+                                    Type
+                                </label>
+                                <select name="type_id" id="type_id"
+                                    class="form-select @error('type_id') is-invalid @enderror">
+                                    <option value="No Type">No Type Found</option>
+                                    @foreach ($types as $type)
+                                        <option @if (old('type_id', $project->$type) == $type->id) selected @endif
+                                            value="{{ $type->id }}">{{ $type->label }}</option>
+                                    @endforeach
+                                </select>
+                                @error('type_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
                         {{-- Button --}}
                         <div class="align-self-end">
                             <button type="submit" class="btn btn-primary mt-4">

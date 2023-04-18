@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Type;
 use Illuminate\Http\Request;
 // Helper per gli array
 use Illuminate\Support\Arr;
@@ -41,8 +42,11 @@ class ProjectController extends Controller
     public function create(Request $request, Project $project)
     {
         // $shoe= new Shoe;// per mettere il model 
+
+        // Mi passo i TYPE
+        $types = Type::orderBy('label')->get();
         //  AGGIUNGO LA ROTTA CREATE
-        return view('admin.projects.create', compact('project'));
+        return view('admin.projects.create', compact('project', 'types'));
     }
 
     /**
@@ -82,8 +86,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $types = Type::orderBy('label')->get();
         // ROTTA SHOW!
-        return view('admin.projects.show', compact('project'));
+        return view('admin.projects.show', compact('project', 'types'));
     }
 
     /**
@@ -94,7 +99,10 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.create', compact('project'));
+        // Passo il TYPES
+        $types = Type::orderBy('label')->get();
+
+        return view('admin.projects.create', compact('project', 'types'));
     }
 
     /**
@@ -149,7 +157,7 @@ class ProjectController extends Controller
         $project->delete();
         return to_route('admin.projects.index')
             ->with('message_type', "danger")
-            ->with('message-content', "Il progetto con $id_project spostato nel cestino!");;
+            ->with('message-content', "Il progetto con $id_project spostato nel cestino!");
     }
 
     // VALIDATION
@@ -161,6 +169,7 @@ class ProjectController extends Controller
                 'title' => 'required|string|max:50',
                 'text' => 'string|max:100',
                 'image' => 'nullable|image|mimes:jpg,png,jpeg',
+                'type_id' => 'nullable|exists:types,id'
                 // 'image' => 'nullable|string'
             ],
             [
@@ -173,6 +182,8 @@ class ProjectController extends Controller
 
                 'image.image' => 'Please upload a file',
                 'image.mimes' => 'The format of the file must be: jpg, png or jpeg',
+
+                'type_id.exists' => 'The Id is not valid',
             ]
         )->validate();
         return $validator;

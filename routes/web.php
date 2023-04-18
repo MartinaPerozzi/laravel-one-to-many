@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Guest\HomeController as GuestHomeController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\TypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,9 @@ Route::middleware('auth')
         Route::get('projects/trash', [ProjectController::class, 'trash'])->name('projects.trash');
         Route::put('projects/{project}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
         Route::delete('projects/{project}/force-delete', [ProjectController::class, 'forceDelete'])->name('projects.force-delete');
+
+        // Rotta TYPES
+        Route::resource('types', TypeController::class);
 
         Route::resource('projects', ProjectController::class)
             ->parameters(['projects' => 'project:slug']);
