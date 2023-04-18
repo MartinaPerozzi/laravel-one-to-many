@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
-@section('page-name', $type->title)
-
 @section('content')
-
     <section class="container">
 
         @if (session('message_content'))
@@ -24,22 +21,25 @@
             </a>
         </div>
 
-        <div class="">
-            <div class="col-10 border pt-5">
-                <div class="row justify-content-center">
-                    <div class="col-4 my-5">
-                        <p class="fw-semibold">
-                            {{ $type->label }}
-                        </p>
+
+
+        <div class="card mb-3 p-4" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <div class="preview-type" style="background-color: {{ $type->color }}">
                     </div>
-                    <div class="col-4 my-5">
-                        <p class="fw-semibold">
-                            {{ $type->color }}
-                        </p>
+                    <p class="fw-semibold mt-2">
+                        {{ $type->color }}
+                    </p>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body d-flex">
+                        <h5 class="card-title">{{ $type->label }}</h5>
+                        <a href="{{ route('admin.types.edit', $type) }}"><i class="fa-solid fa-pen ms-3"></i></a>
                     </div>
                 </div>
             </div>
         </div>
+        </div>
     </section>
-
 @endsection

@@ -67,7 +67,13 @@
                 </div>
 
                 </form>
+
+                <div id="color-type" class="preview-type" style="background_color:{{ $type->color }}">
+                    <div id="type-prev"></div>
+                </div>
+                <span>{{ $type->color }}</span>
             </div>
+
         </div>
     </section>
 @endsection
