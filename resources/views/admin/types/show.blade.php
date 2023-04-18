@@ -12,7 +12,7 @@
         <h1 class="my-4">Dettaglio - {{ $type->label }}</h1>
 
         <div class="d-flex mb-3">
-            <a href="{{ route('admin.types.index') }}" class="btn btn-primary me-3">
+            <a href="{{ route('admin.types.index') }}" class="btn btn-primary">
                 Torna alla lista
             </a>
 
@@ -28,14 +28,21 @@
                 <div class="col-md-4">
                     <div class="preview-type" style="background-color: {{ $type->color }}">
                     </div>
-                    <p class="fw-semibold mt-2">
+                    {{-- <p class="fw-semibold mt-2">
                         {{ $type->color }}
-                    </p>
+                    </p> --}}
                 </div>
                 <div class="col-md-8">
-                    <div class="card-body d-flex">
-                        <h5 class="card-title">{{ $type->label }}</h5>
-                        <a href="{{ route('admin.types.edit', $type) }}"><i class="fa-solid fa-pen ms-3"></i></a>
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div>
+                                <h5 class="card-title">{{ $type->label }}</h5>
+                            </div>
+                            <a href="{{ route('admin.types.edit', $type) }}"><i class="fa-solid fa-pen ms-3"></i></a>
+                        </div>
+                        <span class="fw-semibold">
+                            {{ $type->color }}
+                        </span>
                     </div>
                 </div>
             </div>

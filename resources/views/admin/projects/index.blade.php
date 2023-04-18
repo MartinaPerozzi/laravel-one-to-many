@@ -2,9 +2,13 @@
 
 @section('actions')
     <div class="container mt-4 mb-3">
-        <a class="btn btn-primary" href="{{ route('admin.projects.create') }}">Create new Project</a>
-        <a class="btn btn-primary" href="{{ route('admin.projects.trash') }}">Trashcan</a>
-        <a class="btn btn-primary" href="{{ route('admin.types.index') }}">Types</a>
+        <a class="btn btn-primary" href="{{ route('admin.projects.create') }}"><i
+                class="fa-solid fa-circle-plus  text-white me-2"></i>Create
+            new Project</a>
+        <a class="btn btn-primary" href="{{ route('admin.types.index') }}"><i
+                class="fa-solid fa-diamond text-white me-2"></i>Types</a>
+        <a class="btn btn-primary" href="{{ route('admin.projects.trash') }}"><i
+                class="fa-solid fa-trash-can  text-white me-2"></i>Trashcan</a>
 
     </div>
 @endsection
